@@ -1,0 +1,14 @@
+{
+  "name": "hiddenpressure",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Finds where undiagnosed high blood pressure is likely in Western Sydney and plans where free check stations should go",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "python3 data/estimate.py && node tests/run-tests.mjs && node tests/ui-tests.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.56.0"
+  }
+}
