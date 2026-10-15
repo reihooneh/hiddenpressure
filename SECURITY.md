@@ -6,17 +6,22 @@ If you find a security or privacy problem, please report it privately using GitH
 
 ## Scope
 
-This is a student prototype that runs entirely in the browser. In scope:
+This is a student project that runs entirely in the browser. In scope:
 
-- Anything that makes the page run code or markup from user input (cross-site scripting)
+- Anything that makes a page run code or markup from the URL or other input (cross-site scripting)
 - Anything that sends data off the device
 - Weaknesses in the Content-Security-Policy
+- Problems in the build or CI that could change what's published
 
-Out of scope: problems in third-party services (GitHub Pages, Google Fonts) themselves.
+Out of scope: problems in GitHub Pages itself.
 
 ## Design
 
-- All processing happens on the device; nothing is uploaded or stored.
-- User input is inserted as text, never as HTML.
-- A Content-Security-Policy restricts what the page can load and blocks plug-ins, `<base>` tags and form submissions.
+- Every page has a strict Content-Security-Policy: scripts, styles and fonts load only from this site, there is no inline code, network requests are blocked (`connect-src 'none'`), and plug-ins, `<base>` tags and form posts are blocked. A test checks every built page.
+- All third-party code (three.js, the fonts) is pinned to exact versions, copied into the site at build time and served from this site. `npm audit` runs in CI.
+- The DOM is built with text and attributes only, never `innerHTML`, `eval` or `document.write`.
+- Settings read from the URL are validated and range-checked; anything unexpected falls back to the defaults.
+- CSV export quotes every cell and prefixes cells that start like a formula.
+- Storage is used only for the light/dark choice, and the site works without it.
+- CI runs with read-only permissions; only the deploy job can write to Pages.
 - No software is 100% secure; these are the protections in place.

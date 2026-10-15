@@ -1,71 +1,81 @@
 # HiddenPressure 🩺
 
-**Finds where undiagnosed high blood pressure is likely to be in Western and South Western Sydney, and plans where free check stations should go to reach the most of those people.**
+**Finds where undiagnosed high blood pressure is likely in Western and South Western Sydney, and plans where free check stations would reach the most of those people.**
 
-**Live demo:** https://reihooneh.github.io/hiddenpressure/ · My main entry for **Optimise 26**, Western Sydney University's student project showcase.
+**Live site:** https://reihooneh.github.io/hiddenpressure/ · My main entry for **Optimise 26**, Western Sydney University's student project showcase.
 
-![HiddenPressure: estimated hidden cases by council on a map, with eight optimised check stations](docs/screenshot.png)
+![HiddenPressure overview: a 3D model of the 13 councils raised by likely undiagnosed cases](docs/home.png)
 
 ## The problem
 
-High blood pressure causes strokes, heart attacks and kidney failure, usually with no symptoms at all. In Australia, **73.7%** of adults whose blood pressure was high when measured did not report having it (ABS National Health Survey 2017–18). Free blood pressure checks only help if they are placed where those people actually are.
+High blood pressure causes strokes, heart attacks and kidney failure, usually with no symptoms. In the ABS National Health Survey 2022, **74.5%** of Australian adults whose blood pressure measured high didn't report having it. Free checks only help if they're placed where those people are.
 
-## What it does
+## The site
 
-1. **Estimates the hidden cases** for 13 councils by combining 2021 Census age groups with ABS rates of measured and unreported high blood pressure by age. That gives about **325,400 adults**, 74% of those with high readings, matching the national figure.
-2. **Plans check stations** across 42 real venues (train stations, shopping centres and libraries). Each venue's reach fades with distance, and overlapping stations share people instead of counting them twice. A greedy maximum-coverage optimiser picks the best set.
-3. **Lets you change the plan:** the number of stations, which venue types are allowed, how far people travel, and an optional priority for the most disadvantaged councils (SEIFA 2021).
-4. **Compares** the plan with a "biggest councils first" plan. With 8 stations, the optimised plan reaches about **61,900** people, **16% more**.
-5. **Stress-tests** the plan by re-running it 300 times with each council's estimate, the travel distance and each venue type's reach varied at random. With 8 stations, 5 are chosen in at least 80% of runs.
-6. **Makes outreach posters** in each council's five most-spoken home languages (2021 Census). Languages without a checked phrase, such as Assyrian and Chaldean Neo-Aramaic in Fairfield, are flagged for a community translator rather than guessed.
+| Page | What it does |
+|---|---|
+| **Overview** | A 3D model of the 13 councils (three.js), raised by the number of people likely to be undiagnosed and coloured by the rate. Then the story in four steps: why it stays hidden (by age), where, where to check, and posters. |
+| **Planner** | Choose how many stations, how far people travel, which venue types and how much to favour disadvantaged areas. The map shows the chosen venues, travel rings and the share of each council reached. Plans can be shared as a link, downloaded as CSV and stress-tested. |
+| **Councils** | A profile for each council: likely undiagnosed by age, languages spoken at home, SEIFA disadvantage, venues, and a sortable comparison table. |
+| **Posters** | A printable A4 poster for any venue or council, in the languages most spoken at home there. |
+| **Method** | Every step, a worked example for any council, the reach curve, how overlaps are handled, greedy vs the best possible plan (computed live), checks against the survey, the stress test, limits, sources and a glossary. |
+
+![The planner: eight check stations on the map with travel rings and the share of each council reached](docs/planner.png)
+
+## Key results
+
+- About **330,000 adults** across 13 councils (1.97 million adults) likely have high blood pressure without knowing. That's **75.7%** of those who would measure high, close to the national 74.5%.
+- With **8 stations**, the planner reaches about **62,900** of them, **16% more** than putting one station in each of the biggest councils.
+- For 1 to 4 stations, greedy matches the best possible plan found by checking every combination (up to 111,930 of them).
+- The stress test re-plans 300 times with the inputs shaken: 5 of the 8 picks are chosen in at least 80% of runs.
+- Posters flag languages with no checked translation (such as Assyrian and Chaldean in Fairfield) for a community translator instead of guessing.
+
+## How it's built
+
+- **No framework, no tracking, no server.** Plain HTML, CSS and JavaScript modules, built into `site/` by a small Node script.
+- **One model for everything** (`site/assets/js/model.js`): the estimates, reach, the greedy optimiser, brute force for checking and the seeded stress test. The pages and the tests import the same file.
+- **Real council boundaries** from the ABS (ASGS 2021, CC BY 4.0), simplified to 34 KB.
+- **Maps that never overlap.** Labels are placed at run time: each one tries positions around its council, avoiding other labels, station markers, leader lines and the map's edges, and adds a leader line when it has to move. Stations close together are spread apart and pinned to their real spot. Anything that can't fit is listed under the map instead of being drawn on top of something.
+- **Self-hosted** fonts (Inter, Fraunces, JetBrains Mono) and three.js, pinned to exact versions, so the page loads nothing from other sites.
 
 ## Run it
 
-It is a single HTML file with no build step. Open `index.html` in a browser, or serve the folder:
-
 ```bash
-python3 -m http.server 8000      # then open http://localhost:8000
-```
-
-## Data
-
-All sources are listed in [data/SOURCES.md](data/SOURCES.md): ABS 2021 Census QuickStats, the ABS National Health Survey 2017–18 and ABS SEIFA 2021. `data/estimate.py` recomputes every council estimate from the published figures and checks that the data inside the app matches:
-
-```bash
-python3 data/estimate.py
+npm ci
+npm run build     # makes site/ from data/ and src/pages/
+npm run serve     # http://127.0.0.1:4173/
 ```
 
 ## Tests
 
 ```bash
-npm install
 npx playwright install chromium
 npm test
 ```
 
-`npm test` runs three checks:
+- **The data:** `data/estimate.py` recomputes every council from the published figures and checks `data.json`.
+- **The model (14 tests):** the unreported share is within 2 points of the national 74.5%; greedy is never worse than the obvious plan for 1 to 15 stations; adding a station never lowers reach; greedy is within 5% of brute force; gains add up with no double counting; the disadvantage focus raises reach where it should; the stress test is reproducible.
+- **The site (23 tests):** every page at phone, tablet and desktop sizes with no errors and no sideways scrolling. On every map, no label touches another label or a station marker, or leaves the map, and **no line of text anywhere on the page overlaps another**. Also: the strict CSP, the 3D model and its no-WebGL fallback, every planner control, shared links with bad values, CSV download, the stress test, council choice, sorting and keyboard use, posters and the theme switch.
 
-- **The data:** `estimate.py` confirms the app's data matches the published sources.
-- **The model (31 checks):** the unreported share is within 2 points of the national 73.7%, and the total estimate is in the expected range. For every plan size from 1 to 15 stations, the optimised plan reaches at least as many people as the biggest-councils plan, and adding a station never lowers the number reached.
-- **The interface (22 checks):** the headline numbers, every control, and that raising the disadvantage priority reaches more people in the most disadvantaged councils. They also check that the stress test is repeatable, poster languages (including the flagged ones and right-to-left Arabic), table sorting, keyboard use, privacy, security, and phone, tablet and laptop layouts.
-
-CI runs everything on every push and deploys the site to GitHub Pages only if it all passes.
+CI checks that the committed site matches the sources, runs everything, and deploys `site/` to GitHub Pages only if it all passes.
 
 ## Security and privacy
 
-- **No personal data at all.** The app works only with published council-level statistics. It has no inputs that accept text, and nothing is stored or sent anywhere.
-- **The Content-Security-Policy** sets `connect-src 'none'`, so the page cannot make network requests even if there were a bug. It also blocks plug-ins, `<base>` tags and form posts.
-- **No HTML is built from strings:** there is no `innerHTML`, `eval` or `document.write`, and a test checks this.
+- **No personal data.** Only published council-level statistics. Nothing is stored except the light/dark choice, and nothing is sent anywhere.
+- **Strict Content-Security-Policy** on every page: scripts, styles and fonts only from this site, no inline code, `connect-src 'none'`, no plug-ins, `<base>` tags or form posts. A test checks every built page.
+- **No HTML from strings:** the DOM is built with `textContent` and attributes only, never `innerHTML`.
+- **Shared links are validated:** planner settings from the URL are range-checked and fall back to defaults.
+- **CSV export** quotes every cell and stops spreadsheet formulas.
 
-See [SECURITY.md](SECURITY.md) for how to report a problem.
+See [SECURITY.md](SECURITY.md) to report a problem.
 
 ## Limitations
 
-- **These are model estimates, not people screened.** The model assumes national rates by age apply locally; real rates differ with culture, income and access to care.
+- **Estimates, not people screened.** National rates by age are applied locally; real rates differ with ethnicity, income and access to GPs.
 - Council-level data is coarse. The next step is suburb-level (SA2) Census tables.
-- Venue reach is a simplified model, not measured foot traffic, and venue coordinates are approximate.
-- Poster translations are drafts until native speakers check them.
+- Venue reach is a planning assumption, not measured foot traffic.
+- Poster translations are drafts until a qualified translator checks them.
 
 ## Licence
 
-MIT. See [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE). Council boundaries © Australian Bureau of Statistics, CC BY 4.0. three.js and the fonts keep their own licences (in `site/assets/vendor` and `site/assets/fonts`).
