@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Posters · HiddenPressure</title>
+<meta name="description" content="Printable A4 posters for free blood pressure checks, in the languages most spoken at home near each venue.">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/theme.js"></script>
+<script type="module" src="assets/js/posters.js"></script>
+</head>
+<body data-page="posters">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="var(--red)"/><path d="M5 17h6l2.5-6 4 11 3-8 1.8 3H27" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>HiddenPressure</span></a>
+    <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <nav class="nav" id="site-nav" aria-label="Main"><a href="index.html">Overview</a><a href="planner.html">Planner</a><a href="councils.html">Councils</a><a href="posters.html" aria-current="page">Posters</a><a href="method.html">Method</a></nav>
+    <button class="icon-btn theme-btn" type="button" aria-label="Switch theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="section tight no-print">
+  <div class="section-head">
+    <p class="eyebrow">Posters</p>
+    <h1>Tell people in the languages they speak at home.</h1>
+    <p class="lede">Pick a venue or a council. The poster uses the languages most spoken at home there (ABS Census 2021) and prints on one A4 page.</p>
+  </div>
+</div>
+<div class="section tight">
+  <div class="poster-layout">
+    <aside class="poster-controls card" aria-label="Poster settings">
+      <div class="field">
+        <label class="field-head" for="for"><span class="label">Poster for</span></label>
+        <select id="for"></select>
+      </div>
+      <div class="field">
+        <div class="field-head"><label for="count">Languages</label><output for="count" id="count-out">4</output></div>
+        <input id="count" type="range" min="2" max="5" step="1" value="4">
+        <p class="help">More languages means smaller text. Four fits well on A4.</p>
+      </div>
+      <div class="field">
+        <h4>Languages on this poster</h4>
+        <ul class="lang-list" id="langs"></ul>
+      </div>
+      <div class="callout small">Every translated line is a <b>draft</b>. Ask a community translator or a NAATI-certified translator to check it before printing.</div>
+      <div class="btn-row">
+        <button class="btn" type="button" id="print">Print or save as PDF</button>
+      </div>
+    </aside>
+    <div class="poster-stage" id="stage"></div>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>
+      <h4>HiddenPressure</h4>
+      <p>A planning tool for free blood pressure checks in Western Sydney. It estimates where undiagnosed high blood pressure is likely and where check stations would reach the most people. It's a planning aid, not medical advice.</p>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul><li><a href="index.html">Overview</a></li><li><a href="planner.html">Planner</a></li><li><a href="councils.html">Councils</a></li><li><a href="posters.html">Posters</a></li><li><a href="method.html">Method</a></li></ul>
+    </div>
+    <div>
+      <h4>Data</h4>
+      <ul>
+        <li>ABS National Health Survey 2022</li>
+        <li>ABS Census 2021 and SEIFA 2021</li>
+        <li>ABS ASGS 2021 boundaries (CC BY 4.0)</li>
+        <li><a href="https://github.com/reihooneh/hiddenpressure">Source code on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

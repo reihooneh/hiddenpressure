@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Councils · HiddenPressure</title>
+<meta name="description" content="Profiles of the 13 Western Sydney councils: likely undiagnosed high blood pressure by age, languages spoken at home and disadvantage.">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/theme.js"></script>
+<script type="module" src="assets/js/councils.js"></script>
+</head>
+<body data-page="councils">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="var(--red)"/><path d="M5 17h6l2.5-6 4 11 3-8 1.8 3H27" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>HiddenPressure</span></a>
+    <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <nav class="nav" id="site-nav" aria-label="Main"><a href="index.html">Overview</a><a href="planner.html">Planner</a><a href="councils.html" aria-current="page">Councils</a><a href="posters.html">Posters</a><a href="method.html">Method</a></nav>
+    <button class="icon-btn theme-btn" type="button" aria-label="Switch theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="section tight">
+  <div class="section-head">
+    <p class="eyebrow">Councils</p>
+    <h1>Thirteen councils, thirteen different stories.</h1>
+    <p class="lede">Pick a council to see who is likely to be undiagnosed, which languages people speak at home and how disadvantaged the area is. The table at the bottom compares them all.</p>
+  </div>
+  <div class="council-chips" id="chips" role="group" aria-label="Choose a council"></div>
+  <div class="council-layout">
+    <article class="card profile" id="profile" aria-live="polite"></article>
+    <div class="card">
+      <div class="map-toolbar">
+        <h3>Where it is</h3>
+        <div class="segmented" role="group" aria-label="Map area">
+          <button type="button" data-view="region" aria-pressed="true">Whole region</button>
+          <button type="button" data-view="urban" aria-pressed="false">Urban core</button>
+        </div>
+      </div>
+      <div id="council-map"></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-head">
+    <h2>All councils compared</h2>
+    <p class="muted">Select a column heading to sort. Select a row to open that council.</p>
+  </div>
+  <div class="table-wrap">
+    <table id="table">
+      <caption class="visually-hidden">Likely undiagnosed high blood pressure by council</caption>
+      <thead><tr>
+        <th scope="col" data-key="name" aria-sort="none"><button type="button">Council</button></th>
+        <th scope="col" class="r" data-key="adults" aria-sort="none"><button type="button">Adults</button></th>
+        <th scope="col" class="r" data-key="hidden" aria-sort="descending"><button type="button">Likely undiagnosed</button></th>
+        <th scope="col" class="r" data-key="rate" aria-sort="none"><button type="button">Per 1,000</button></th>
+        <th scope="col" class="r" data-key="irsd" aria-sort="none"><button type="button">SEIFA</button></th>
+        <th scope="col">Top languages at home (after English)</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>
+      <h4>HiddenPressure</h4>
+      <p>A planning tool for free blood pressure checks in Western Sydney. It estimates where undiagnosed high blood pressure is likely and where check stations would reach the most people. It's a planning aid, not medical advice.</p>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul><li><a href="index.html">Overview</a></li><li><a href="planner.html">Planner</a></li><li><a href="councils.html">Councils</a></li><li><a href="posters.html">Posters</a></li><li><a href="method.html">Method</a></li></ul>
+    </div>
+    <div>
+      <h4>Data</h4>
+      <ul>
+        <li>ABS National Health Survey 2022</li>
+        <li>ABS Census 2021 and SEIFA 2021</li>
+        <li>ABS ASGS 2021 boundaries (CC BY 4.0)</li>
+        <li><a href="https://github.com/reihooneh/hiddenpressure">Source code on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

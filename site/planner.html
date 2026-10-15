@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Planner · HiddenPressure</title>
+<meta name="description" content="Choose how many free blood pressure check stations to run and the planner picks the venues that reach the most people likely to be undiagnosed.">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/theme.js"></script>
+<script type="module" src="assets/js/planner.js"></script>
+</head>
+<body data-page="planner">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="var(--red)"/><path d="M5 17h6l2.5-6 4 11 3-8 1.8 3H27" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>HiddenPressure</span></a>
+    <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <nav class="nav" id="site-nav" aria-label="Main"><a href="index.html">Overview</a><a href="planner.html" aria-current="page">Planner</a><a href="councils.html">Councils</a><a href="posters.html">Posters</a><a href="method.html">Method</a></nav>
+    <button class="icon-btn theme-btn" type="button" aria-label="Switch theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="section tight wide">
+  <div class="section-head compact">
+    <p class="eyebrow teal">Planner</p>
+    <h1>Where should the check stations go?</h1>
+    <p class="lede">Set your budget and how far people will travel. The planner picks the venues, one at a time, that reach the most people likely to have undiagnosed high blood pressure, counting overlaps only once.</p>
+  </div>
+</div>
+
+<div class="planner">
+  <aside class="controls card" aria-label="Plan settings">
+    <div class="field">
+      <div class="field-head"><label for="stations">Check stations</label><output for="stations" id="stations-out">8</output></div>
+      <input id="stations" type="range" min="1" max="15" step="1" value="8">
+      <p class="help">How many venues you can staff for a day.</p>
+    </div>
+    <div class="field">
+      <div class="field-head"><label for="radius">How far people come</label><output for="radius" id="radius-out">6 km</output></div>
+      <input id="radius" type="range" min="2" max="12" step="1" value="6">
+      <p class="help">At this distance a venue still reaches about a third as many people as next door.</p>
+    </div>
+    <div class="field">
+      <div class="field-head"><label for="priority">Focus on disadvantage</label><output for="priority" id="priority-out">Off</output></div>
+      <input id="priority" type="range" min="0" max="3" step="1" value="0">
+      <p class="help">Gives more weight to councils with lower SEIFA scores (more disadvantage).</p>
+    </div>
+    <fieldset class="checks" id="types">
+      <legend>Venue types</legend>
+      <label class="check"><input type="checkbox" value="shopping" checked> Shopping centres</label>
+      <label class="check"><input type="checkbox" value="station" checked> Train stations</label>
+      <label class="check"><input type="checkbox" value="library" checked> Libraries</label>
+    </fieldset>
+    <div class="btn-row">
+      <button class="btn ghost small" type="button" id="reset">Reset</button>
+      <button class="btn ghost small" type="button" id="copy-link">Copy link</button>
+      <button class="btn ghost small" type="button" id="csv">Download CSV</button>
+    </div>
+  </aside>
+
+  <section class="card map-card" aria-label="Map">
+    <div class="map-toolbar">
+      <div class="segmented" role="group" aria-label="Map area">
+        <button type="button" data-view="urban" aria-pressed="true">Urban core</button>
+        <button type="button" data-view="region" aria-pressed="false">Whole region</button>
+      </div>
+      <div class="segmented" role="group" aria-label="Map colour">
+        <button type="button" data-colour="reached" aria-pressed="true">Reached</button>
+        <button type="button" data-colour="rate" aria-pressed="false">Rate</button>
+        <button type="button" data-colour="count" aria-pressed="false">People</button>
+      </div>
+    </div>
+    <div id="planner-map"></div>
+    <div class="map-legend" id="planner-legend"></div>
+  </section>
+
+  <div class="results">
+    <section class="card" aria-labelledby="summary-title">
+      <h3 id="summary-title">People reached</h3>
+      <p class="big-number" id="reach-number" aria-live="polite">62,900</p>
+      <p class="small muted" id="reach-sub">of 330,000 likely undiagnosed</p>
+      <div class="compare" id="compare"></div>
+      <dl class="kv" id="summary-kv"></dl>
+    </section>
+    <section class="card" aria-labelledby="plan-title">
+      <h3 id="plan-title">The plan</h3>
+      <p class="small muted">In the order chosen. Each number is the extra people that venue reaches.</p>
+      <ol class="plan-list" id="plan"></ol>
+      <div class="detail" id="detail" aria-live="polite"></div>
+    </section>
+    <section class="card" aria-labelledby="stress-title">
+      <h3 id="stress-title">How sure is this plan?</h3>
+      <p class="small muted">Re-plans 300 times with the estimates shaken (each council ±20%, travel ±25%, venue reach ±20%) and counts how often each venue is chosen.</p>
+      <button class="btn small" type="button" id="stress">Run the stress test</button>
+      <div class="stability" id="stability" aria-live="polite"></div>
+    </section>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>
+      <h4>HiddenPressure</h4>
+      <p>A planning tool for free blood pressure checks in Western Sydney. It estimates where undiagnosed high blood pressure is likely and where check stations would reach the most people. It's a planning aid, not medical advice.</p>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul><li><a href="index.html">Overview</a></li><li><a href="planner.html">Planner</a></li><li><a href="councils.html">Councils</a></li><li><a href="posters.html">Posters</a></li><li><a href="method.html">Method</a></li></ul>
+    </div>
+    <div>
+      <h4>Data</h4>
+      <ul>
+        <li>ABS National Health Survey 2022</li>
+        <li>ABS Census 2021 and SEIFA 2021</li>
+        <li>ABS ASGS 2021 boundaries (CC BY 4.0)</li>
+        <li><a href="https://github.com/reihooneh/hiddenpressure">Source code on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

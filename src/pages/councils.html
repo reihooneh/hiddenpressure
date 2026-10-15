@@ -1,0 +1,43 @@
+<!--meta {"title":"Councils · HiddenPressure","description":"Profiles of the 13 Western Sydney councils: likely undiagnosed high blood pressure by age, languages spoken at home and disadvantage.","script":"councils.js"} -->
+<div class="section tight">
+  <div class="section-head">
+    <p class="eyebrow">Councils</p>
+    <h1>Thirteen councils, thirteen different stories.</h1>
+    <p class="lede">Pick a council to see who is likely to be undiagnosed, which languages people speak at home and how disadvantaged the area is. The table at the bottom compares them all.</p>
+  </div>
+  <div class="council-chips" id="chips" role="group" aria-label="Choose a council"></div>
+  <div class="council-layout">
+    <article class="card profile" id="profile" aria-live="polite"></article>
+    <div class="card">
+      <div class="map-toolbar">
+        <h3>Where it is</h3>
+        <div class="segmented" role="group" aria-label="Map area">
+          <button type="button" data-view="region" aria-pressed="true">Whole region</button>
+          <button type="button" data-view="urban" aria-pressed="false">Urban core</button>
+        </div>
+      </div>
+      <div id="council-map"></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-head">
+    <h2>All councils compared</h2>
+    <p class="muted">Select a column heading to sort. Select a row to open that council.</p>
+  </div>
+  <div class="table-wrap">
+    <table id="table">
+      <caption class="visually-hidden">Likely undiagnosed high blood pressure by council</caption>
+      <thead><tr>
+        <th scope="col" data-key="name" aria-sort="none"><button type="button">Council</button></th>
+        <th scope="col" class="r" data-key="adults" aria-sort="none"><button type="button">Adults</button></th>
+        <th scope="col" class="r" data-key="hidden" aria-sort="descending"><button type="button">Likely undiagnosed</button></th>
+        <th scope="col" class="r" data-key="rate" aria-sort="none"><button type="button">Per 1,000</button></th>
+        <th scope="col" class="r" data-key="irsd" aria-sort="none"><button type="button">SEIFA</button></th>
+        <th scope="col">Top languages at home (after English)</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>

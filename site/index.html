@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>HiddenPressure: finding undiagnosed high blood pressure in Western Sydney</title>
+<meta name="description" content="About {{hidden_total}} adults in Western Sydney likely have high blood pressure and don't know it. See where, and plan free check stations that reach the most people.">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/theme.js"></script>
+<script type="module" src="assets/js/home.js"></script>
+</head>
+<body data-page="index">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="var(--red)"/><path d="M5 17h6l2.5-6 4 11 3-8 1.8 3H27" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>HiddenPressure</span></a>
+    <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <nav class="nav" id="site-nav" aria-label="Main"><a href="index.html" aria-current="page">Overview</a><a href="planner.html">Planner</a><a href="councils.html">Councils</a><a href="posters.html">Posters</a><a href="method.html">Method</a></nav>
+    <button class="icon-btn theme-btn" type="button" aria-label="Switch theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Western Sydney · public health planning</p>
+    <h1>About <em>330,000</em> adults here have high blood pressure and don't know it.</h1>
+    <p class="lede">High blood pressure has no symptoms, so most people only find out when they're measured. HiddenPressure estimates where those people are across 13 councils, then plans where free check stations would reach the most of them, with posters in the languages people speak at home.</p>
+    <div class="btn-row">
+      <a class="btn" href="planner.html">Plan check stations <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn ghost" href="method.html">How it's worked out</a>
+    </div>
+  </div>
+  <figure class="hero-stage" id="hero" aria-label="3D model of the 13 councils, raised by the number of people likely to have undiagnosed high blood pressure">
+    <span class="hero-hint no-print">Drag to turn · tap a council</span>
+    <div class="hero-tools">
+      <button class="icon-btn" type="button" data-step="-1" aria-label="Previous council"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="icon-btn" type="button" data-step="1" aria-label="Next council"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <figcaption class="hero-caption">
+      <div class="hero-readout" aria-live="polite"><b>Western Sydney, 13 councils</b><span>Height: people likely undiagnosed. Colour: rate per 1,000 adults.</span></div>
+      <div class="hero-legend" aria-hidden="true"><span>Rate per 1,000 adults</span><span class="ramp"></span><span class="ramp-ends"><span>lower</span><span>higher</span></span></div>
+    </figcaption>
+  </figure>
+</section>
+
+<section class="section tight" aria-label="Key numbers">
+  <div class="stats reveal">
+    <div class="stat red"><b id="stat-hidden">330,000</b><span>adults likely to have high blood pressure without knowing</span></div>
+    <div class="stat"><b>75.7%</b><span>of adults with high blood pressure here didn't report it (national survey: 74.5%)</span></div>
+    <div class="stat"><b>22.1%</b><span>of the 1.97 million adults would measure high</span></div>
+    <div class="stat teal"><b>+16%</b><span>more people reached by 8 well-placed stations than by the obvious plan</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="story reveal">
+    <div class="copy">
+      <p class="step">01 · WHY IT STAYS HIDDEN</p>
+      <h2>Younger adults are the least likely to know.</h2>
+      <p class="muted">In the ABS National Health Survey, nurses measured people's blood pressure and asked whether they had been told it was high. Among 18 to 44 year olds who measured high, more than 9 in 10 didn't report it. Older people are measured more often, so more of them know.</p>
+      <p class="muted">HiddenPressure applies these rates to the number of adults of each age in every council (ABS Census 2021).</p>
+    </div>
+    <div class="card">
+      <h3>High blood pressure by age, Australia 2022</h3>
+      <p class="small muted">Bar length = share of adults who measured high. The red part didn't know.</p>
+      <div class="age-chart" id="age-chart"></div>
+      <div class="chart-legend"><span><i class="key soft"></i>Measured high and knew</span><span><i class="key"></i>Measured high and didn't report it</span></div>
+    </div>
+  </div>
+
+  <div class="story reveal">
+    <div class="copy">
+      <p class="step">02 · WHERE</p>
+      <h2>The biggest numbers are in the big suburbs. The highest rates are on the edges.</h2>
+      <p class="muted"><b>Canterbury-Bankstown</b> has the most people likely to be undiagnosed, because it's big. <b>Blue Mountains</b> has the highest rate per 1,000 adults, because its population is older. A good plan needs both views.</p>
+      <div class="btn-row"><a class="btn ghost small" href="councils.html">Explore the councils</a></div>
+    </div>
+    <div class="card">
+      <div class="map-toolbar">
+        <h3>Likely undiagnosed, by council</h3>
+        <div class="segmented" role="group" aria-label="Map colour">
+          <button type="button" data-mode="rate" aria-pressed="true">Per 1,000 adults</button>
+          <button type="button" data-mode="count" aria-pressed="false">Number of people</button>
+        </div>
+      </div>
+      <div id="home-map"></div>
+    </div>
+  </div>
+
+  <div class="story reveal">
+    <div class="copy">
+      <p class="step">03 · WHERE TO CHECK</p>
+      <h2>Put stations where people pass, not just where councils are big.</h2>
+      <p class="muted">The obvious plan puts one station in each of the biggest councils. The planner instead picks, one at a time, the venue that reaches the most people not already covered. Busy shopping centres and stations near borders reach two or three councils at once.</p>
+      <div class="btn-row"><a class="btn small" href="planner.html">Open the planner</a></div>
+    </div>
+    <div class="card">
+      <h3>People reached by 8 stations</h3>
+      <div class="compare" id="home-compare"></div>
+      <h4>The planner's picks, in order</h4>
+      <ol class="plan-list" id="home-plan"></ol>
+    </div>
+  </div>
+
+  <div class="story reveal">
+    <div class="copy">
+      <p class="step">04 · IN THEIR LANGUAGE</p>
+      <h2>A poster for every venue, in the languages spoken nearby.</h2>
+      <p class="muted">Each poster uses the top languages spoken at home in the venue's council. Every translation is marked as a draft for a community translator to check, and languages without a checked line say so instead of guessing.</p>
+      <div class="btn-row"><a class="btn ghost small" href="posters.html">Make a poster</a></div>
+    </div>
+    <div class="poster-stage" id="home-poster"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="callout reveal">
+    <b>Read this as a plan, not a diagnosis.</b> The numbers are estimates: national rates applied to local age profiles. They don't include local differences in ethnicity, income or access to GPs, which can change the true numbers. The <a href="method.html">method page</a> shows every step, checks it against the survey and stress-tests the plan.
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>
+      <h4>HiddenPressure</h4>
+      <p>A planning tool for free blood pressure checks in Western Sydney. It estimates where undiagnosed high blood pressure is likely and where check stations would reach the most people. It's a planning aid, not medical advice.</p>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul><li><a href="index.html">Overview</a></li><li><a href="planner.html">Planner</a></li><li><a href="councils.html">Councils</a></li><li><a href="posters.html">Posters</a></li><li><a href="method.html">Method</a></li></ul>
+    </div>
+    <div>
+      <h4>Data</h4>
+      <ul>
+        <li>ABS National Health Survey 2022</li>
+        <li>ABS Census 2021 and SEIFA 2021</li>
+        <li>ABS ASGS 2021 boundaries (CC BY 4.0)</li>
+        <li><a href="https://github.com/reihooneh/hiddenpressure">Source code on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

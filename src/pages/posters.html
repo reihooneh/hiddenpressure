@@ -1,0 +1,32 @@
+<!--meta {"title":"Posters · HiddenPressure","description":"Printable A4 posters for free blood pressure checks, in the languages most spoken at home near each venue.","script":"posters.js"} -->
+<div class="section tight no-print">
+  <div class="section-head">
+    <p class="eyebrow">Posters</p>
+    <h1>Tell people in the languages they speak at home.</h1>
+    <p class="lede">Pick a venue or a council. The poster uses the languages most spoken at home there (ABS Census 2021) and prints on one A4 page.</p>
+  </div>
+</div>
+<div class="section tight">
+  <div class="poster-layout">
+    <aside class="poster-controls card" aria-label="Poster settings">
+      <div class="field">
+        <label class="field-head" for="for"><span class="label">Poster for</span></label>
+        <select id="for"></select>
+      </div>
+      <div class="field">
+        <div class="field-head"><label for="count">Languages</label><output for="count" id="count-out">4</output></div>
+        <input id="count" type="range" min="2" max="5" step="1" value="4">
+        <p class="help">More languages means smaller text. Four fits well on A4.</p>
+      </div>
+      <div class="field">
+        <h4>Languages on this poster</h4>
+        <ul class="lang-list" id="langs"></ul>
+      </div>
+      <div class="callout small">Every translated line is a <b>draft</b>. Ask a community translator or a NAATI-certified translator to check it before printing.</div>
+      <div class="btn-row">
+        <button class="btn" type="button" id="print">Print or save as PDF</button>
+      </div>
+    </aside>
+    <div class="poster-stage" id="stage"></div>
+  </div>
+</div>

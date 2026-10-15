@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Method · HiddenPressure</title>
+<meta name="description" content="How HiddenPressure estimates undiagnosed high blood pressure and plans check stations, step by step, with checks, a stress test, sources and limits.">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/theme.js"></script>
+<script type="module" src="assets/js/method.js"></script>
+</head>
+<body data-page="method">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="var(--red)"/><path d="M5 17h6l2.5-6 4 11 3-8 1.8 3H27" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>HiddenPressure</span></a>
+    <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <nav class="nav" id="site-nav" aria-label="Main"><a href="index.html">Overview</a><a href="planner.html">Planner</a><a href="councils.html">Councils</a><a href="posters.html">Posters</a><a href="method.html" aria-current="page">Method</a></nav>
+    <button class="icon-btn theme-btn" type="button" aria-label="Switch theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="section tight">
+  <div class="section-head">
+    <p class="eyebrow">Method</p>
+    <h1>How the numbers are worked out.</h1>
+    <p class="lede">Five steps, all open. Every figure on this site comes from the same small model, which you can check here and in the source code.</p>
+  </div>
+  <ol class="pipeline reveal" aria-label="The five steps">
+    <li class="pipe-step"><span class="n">STEP 1</span><h4>Adults by age</h4><p>Census 2021 counts of adults in seven age bands, for each of the 13 councils.</p></li>
+    <li class="pipe-step"><span class="n">STEP 2</span><h4>National rates</h4><p>For each age band: the share who measure high, and the share of those who didn't report it.</p></li>
+    <li class="pipe-step"><span class="n">STEP 3</span><h4>Likely undiagnosed</h4><p>Multiply and add up the bands: about 330,000 people across the region.</p></li>
+    <li class="pipe-step"><span class="n">STEP 4</span><h4>Reach</h4><p>How likely a venue is to reach those people, fading with distance.</p></li>
+    <li class="pipe-step"><span class="n">STEP 5</span><h4>Choose venues</h4><p>Add the venue that reaches the most people not yet covered, then repeat.</p></li>
+  </ol>
+</div>
+
+<section class="section">
+  <div class="grid-2">
+    <div class="prose reveal">
+      <p class="eyebrow">Steps 1 to 3</p>
+      <h2>A worked example</h2>
+      <p>For each age band, <b>likely undiagnosed = adults × share who measure high × share of them who didn't report it</b>. The rates come from the ABS National Health Survey 2022, where a nurse measured people's blood pressure (140/90 or higher counts as high) and people were asked whether they had high blood pressure.</p>
+      <p>Pick a council to see its numbers. The total matches the councils page and the planner exactly.</p>
+      <label class="field"><span class="label">Council</span><select id="worked-council"></select></label>
+    </div>
+    <div class="card reveal">
+      <div class="worked" id="worked" role="table" aria-label="Worked example"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-2">
+    <div class="prose reveal">
+      <p class="eyebrow teal">Step 4</p>
+      <h2>Reach fades with distance</h2>
+      <p>A venue's reach is the share of people with undiagnosed high blood pressure in a council who would stop and get checked. It starts at a base for the type of venue (busy shopping centres highest, libraries lowest) and fades as a bell curve with distance from the council's centre:</p>
+      <p class="formula">reach = base × e<sup>−(distance ÷ R)²</sup></p>
+      <p>R is the "how far people come" setting. At distance R a venue still reaches e<sup>−1</sup>, about 37%, of its base. The bases are planning assumptions, not measured values, which is why the stress test shakes them.</p>
+    </div>
+    <div class="card reveal">
+      <h3>Reach by distance (R = 6 km)</h3>
+      <div id="decay"></div>
+      <div class="chart-legend" id="decay-legend"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-2">
+    <div class="prose reveal">
+      <p class="eyebrow teal">Overlaps</p>
+      <h2>Two stations don't reach the same person twice</h2>
+      <p>If two venues near the same council reach 30% and 20% of its people, together they don't reach 50%. Someone missed by both is missed with chance 0.7 × 0.8 = 0.56, so together they reach <b>44%</b>. In general:</p>
+      <p class="formula">reached = 1 − (1 − p₁)(1 − p₂)…(1 − pₙ)</p>
+      <p>That's why the planner spreads stations out: a second station next to the first adds less than one in a new area.</p>
+    </div>
+    <div class="card venn reveal">
+      <svg viewBox="0 0 260 180" role="img" aria-label="Two overlapping circles: 30% and 20% reach together 44%, not 50%">
+        <circle class="a" cx="105" cy="90" r="70"/>
+        <circle class="b" cx="165" cy="90" r="58"/>
+        <text x="82" y="52">A</text>
+        <text x="186" y="52">B</text>
+        <text x="72" y="96">24%</text>
+        <text x="199" y="96">14%</text>
+        <text x="141" y="96">6%</text>
+      </svg>
+      <div class="prose small">
+        <p><b>A reaches 30%, B reaches 20%. Together: 24% + 6% + 14% = 44%.</b></p>
+        <p class="muted">The 6% in the middle (0.3 × 0.2) are reached by both. Adding 30% and 20% would count them twice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-2">
+    <div class="prose reveal">
+      <p class="eyebrow teal">Step 5</p>
+      <h2>Choosing venues: greedy, and checked</h2>
+      <p>The planner adds the venue that reaches the most extra people, then repeats. This "greedy" method is the standard approach for maximum coverage problems: because each extra station helps less than the last (the overlaps above), greedy is mathematically guaranteed to reach at least 63% of the best possible, and in practice it does much better.</p>
+      <p>For small plans we can check every combination of venues and compare. The table is computed live in your browser.</p>
+    </div>
+    <div class="card reveal">
+      <h3>Greedy vs the best possible</h3>
+      <div class="table-wrap">
+        <table class="check-table" id="greedy-table">
+          <thead><tr><th scope="col">Stations</th><th scope="col" class="r">Combinations</th><th scope="col" class="r">Greedy</th><th scope="col" class="r">Best</th><th scope="col" class="r">Greedy / best</th></tr></thead>
+          <tbody><tr><td colspan="5">Working it out…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-2">
+    <div class="prose reveal">
+      <p class="eyebrow">Checks</p>
+      <h2>Does it agree with the survey?</h2>
+      <p>Applied to Western Sydney's age mix, the national rates give a share of people unaware of their high blood pressure close to the national figure. Small differences are expected, because Western Sydney is younger than Australia overall, and younger people are both less likely to have high blood pressure and less likely to know.</p>
+      <p>The automated tests check these numbers on every change, along with the optimiser and every page of this site.</p>
+    </div>
+    <div class="card reveal">
+      <div class="table-wrap">
+        <table class="check-table">
+          <thead><tr><th scope="col">Measure</th><th scope="col" class="r">This model</th><th scope="col" class="r">ABS, Australia</th></tr></thead>
+          <tbody>
+            <tr><td>Adults who measure high</td><td class="r num">22.1%</td><td class="r num">23.3%</td></tr>
+            <tr><td>Of those, didn't report it</td><td class="r num">75.7%</td><td class="r num">74.5%</td></tr>
+            <tr><td>Adults covered</td><td class="r num">1.97 m</td><td class="r num">n/a</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted">ABS figures: National Health Survey 2022, adults 18+. About 39% of people in the survey didn't have a measurement taken; the ABS imputed their values.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-2">
+    <div class="prose reveal">
+      <p class="eyebrow">Stress test</p>
+      <h2>Would the plan change if the numbers were wrong?</h2>
+      <p>The planner re-plans 300 times. Each time every council's estimate moves by up to ±20%, the travel distance by up to ±25% and each venue type's reach by up to ±20%. The random numbers are seeded, so everyone sees the same result.</p>
+      <p>A venue picked in more than 80% of runs is a safe choice. One picked less often is close to an alternative, and local knowledge should decide.</p>
+    </div>
+    <div class="card reveal">
+      <h3>The default 8-station plan</h3>
+      <div class="stability" id="method-stress"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-2">
+    <div class="prose reveal">
+      <p class="eyebrow">Limits</p>
+      <h2>What this model can't tell you</h2>
+      <ul>
+        <li><b>National rates, local people.</b> Rates differ by ethnicity, income and access to GPs. Western Sydney's true numbers could be higher or lower.</li>
+        <li><b>One measurement isn't a diagnosis.</b> The survey measured blood pressure on one day; a diagnosis needs repeated readings.</li>
+        <li><b>Reach is an assumption.</b> The base reach of each venue type and the distance fall-off are planning guesses. The stress test shows how much they matter.</li>
+        <li><b>Council centres.</b> Distances are measured to each council's population centre, not to where every person lives.</li>
+        <li><b>Draft translations.</b> Poster lines must be checked by a qualified translator.</li>
+      </ul>
+    </div>
+    <div class="prose reveal">
+      <p class="eyebrow">Sources</p>
+      <h2>Data used</h2>
+      <ol class="sources">
+        <li>ABS, <i>Hypertension and measured high blood pressure</i>, National Health Survey 2022 (released 15 December 2023): measured high blood pressure and not reporting it, by age.</li>
+        <li>ABS, 2021 Census QuickStats for each council: people by age and languages used at home.</li>
+        <li>ABS, Socio-Economic Indexes for Areas (SEIFA) 2021: Index of Relative Socio-economic Disadvantage by council.</li>
+        <li>ABS, Australian Statistical Geography Standard Edition 3, Local Government Areas 2021, simplified (CC BY 4.0), via the nswgeo package.</li>
+        <li>Venue locations: public locations of stations, shopping centres and libraries (approximate).</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head"><p class="eyebrow">Glossary</p><h2>Words used on this site</h2></div>
+  <dl class="glossary reveal">
+    <dt>High blood pressure</dt><dd>A reading of 140/90 mmHg or more. Also called hypertension. It usually has no symptoms.</dd>
+    <dt>Likely undiagnosed</dt><dd>People estimated to measure high who didn't report having high blood pressure.</dd>
+    <dt>Rate per 1,000</dt><dd>Likely undiagnosed people for every 1,000 adults in the council. Good for comparing councils of different sizes.</dd>
+    <dt>SEIFA (IRSD)</dt><dd>An ABS score of disadvantage. The national average is 1,000; lower means more disadvantaged. Here "most disadvantaged" means below 950.</dd>
+    <dt>Greedy algorithm</dt><dd>Build a plan one step at a time, always taking the step that helps most right now.</dd>
+    <dt>Maximum coverage</dt><dd>Choosing a fixed number of options to cover as many people as possible, without counting anyone twice.</dd>
+    <dt>Stress test</dt><dd>Re-running the plan with the inputs changed at random to see how stable it is.</dd>
+  </dl>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>
+      <h4>HiddenPressure</h4>
+      <p>A planning tool for free blood pressure checks in Western Sydney. It estimates where undiagnosed high blood pressure is likely and where check stations would reach the most people. It's a planning aid, not medical advice.</p>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul><li><a href="index.html">Overview</a></li><li><a href="planner.html">Planner</a></li><li><a href="councils.html">Councils</a></li><li><a href="posters.html">Posters</a></li><li><a href="method.html">Method</a></li></ul>
+    </div>
+    <div>
+      <h4>Data</h4>
+      <ul>
+        <li>ABS National Health Survey 2022</li>
+        <li>ABS Census 2021 and SEIFA 2021</li>
+        <li>ABS ASGS 2021 boundaries (CC BY 4.0)</li>
+        <li><a href="https://github.com/reihooneh/hiddenpressure">Source code on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

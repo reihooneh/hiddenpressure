@@ -1,0 +1,77 @@
+<!--meta {"title":"Planner · HiddenPressure","description":"Choose how many free blood pressure check stations to run and the planner picks the venues that reach the most people likely to be undiagnosed.","script":"planner.js"} -->
+<div class="section tight wide">
+  <div class="section-head compact">
+    <p class="eyebrow teal">Planner</p>
+    <h1>Where should the check stations go?</h1>
+    <p class="lede">Set your budget and how far people will travel. The planner picks the venues, one at a time, that reach the most people likely to have undiagnosed high blood pressure, counting overlaps only once.</p>
+  </div>
+</div>
+
+<div class="planner">
+  <aside class="controls card" aria-label="Plan settings">
+    <div class="field">
+      <div class="field-head"><label for="stations">Check stations</label><output for="stations" id="stations-out">{{plan_n}}</output></div>
+      <input id="stations" type="range" min="1" max="15" step="1" value="{{plan_n}}">
+      <p class="help">How many venues you can staff for a day.</p>
+    </div>
+    <div class="field">
+      <div class="field-head"><label for="radius">How far people come</label><output for="radius" id="radius-out">6 km</output></div>
+      <input id="radius" type="range" min="2" max="12" step="1" value="6">
+      <p class="help">At this distance a venue still reaches about a third as many people as next door.</p>
+    </div>
+    <div class="field">
+      <div class="field-head"><label for="priority">Focus on disadvantage</label><output for="priority" id="priority-out">Off</output></div>
+      <input id="priority" type="range" min="0" max="3" step="1" value="0">
+      <p class="help">Gives more weight to councils with lower SEIFA scores (more disadvantage).</p>
+    </div>
+    <fieldset class="checks" id="types">
+      <legend>Venue types</legend>
+      <label class="check"><input type="checkbox" value="shopping" checked> Shopping centres</label>
+      <label class="check"><input type="checkbox" value="station" checked> Train stations</label>
+      <label class="check"><input type="checkbox" value="library" checked> Libraries</label>
+    </fieldset>
+    <div class="btn-row">
+      <button class="btn ghost small" type="button" id="reset">Reset</button>
+      <button class="btn ghost small" type="button" id="copy-link">Copy link</button>
+      <button class="btn ghost small" type="button" id="csv">Download CSV</button>
+    </div>
+  </aside>
+
+  <section class="card map-card" aria-label="Map">
+    <div class="map-toolbar">
+      <div class="segmented" role="group" aria-label="Map area">
+        <button type="button" data-view="urban" aria-pressed="true">Urban core</button>
+        <button type="button" data-view="region" aria-pressed="false">Whole region</button>
+      </div>
+      <div class="segmented" role="group" aria-label="Map colour">
+        <button type="button" data-colour="reached" aria-pressed="true">Reached</button>
+        <button type="button" data-colour="rate" aria-pressed="false">Rate</button>
+        <button type="button" data-colour="count" aria-pressed="false">People</button>
+      </div>
+    </div>
+    <div id="planner-map"></div>
+    <div class="map-legend" id="planner-legend"></div>
+  </section>
+
+  <div class="results">
+    <section class="card" aria-labelledby="summary-title">
+      <h3 id="summary-title">People reached</h3>
+      <p class="big-number" id="reach-number" aria-live="polite">{{plan_reach}}</p>
+      <p class="small muted" id="reach-sub">of {{hidden_total}} likely undiagnosed</p>
+      <div class="compare" id="compare"></div>
+      <dl class="kv" id="summary-kv"></dl>
+    </section>
+    <section class="card" aria-labelledby="plan-title">
+      <h3 id="plan-title">The plan</h3>
+      <p class="small muted">In the order chosen. Each number is the extra people that venue reaches.</p>
+      <ol class="plan-list" id="plan"></ol>
+      <div class="detail" id="detail" aria-live="polite"></div>
+    </section>
+    <section class="card" aria-labelledby="stress-title">
+      <h3 id="stress-title">How sure is this plan?</h3>
+      <p class="small muted">Re-plans 300 times with the estimates shaken (each council ±20%, travel ±25%, venue reach ±20%) and counts how often each venue is chosen.</p>
+      <button class="btn small" type="button" id="stress">Run the stress test</button>
+      <div class="stability" id="stability" aria-live="polite"></div>
+    </section>
+  </div>
+</div>
