@@ -15,8 +15,10 @@ L={
 "Canterbury-Bankstown":dict(pop=371006,ages=[22662,25124,27651,27793,27026,24045,23222,22450,21938,19985,16245,13514,9929,7576,8374],langs=[["Arabic",63655],["Vietnamese",27916],["Mandarin",19049],["Greek",17394],["Cantonese",13588]],irsd=916.8,ll=(-33.925,151.055)),
 "Wollondilly":dict(pop=53961,ages=[3712,3188,3081,3454,3550,3348,3759,3587,3215,3096,2682,2320,1517,944,766],langs=[["Italian",359],["Arabic",358],["Spanish",266],["Maltese",202],["Croatian",174]],irsd=1041.0,ll=(-34.150,150.570)),
 }
-# ABS National Health Survey 2017-18: measured high BP (persons %) and % not reporting hypertension
-BANDS=[("18-24",5.5,96.6),("25-34",8.7,96.6),("35-44",16.05,88.3),("45-54",26.4,78.0),("55-64",33.7,72.2),("65-74",40.3,63.8),("75+",45.2,56.7)]
+# ABS National Health Survey 2022, "Hypertension and high measured blood pressure" (released 15 Dec 2023):
+#   measured high BP (persons %): 18-24 and 75+ are the persons figures in the text; the others are
+#   the mean of the published male and female rates. Not reporting hypertension: Table 2 (18-44 is one group).
+BANDS=[("18-24",4.5,92.3),("25-34",12.0,92.3),("35-44",14.95,92.3),("45-54",27.0,81.1),("55-64",32.15,75.2),("65-74",39.1,63.6),("75+",42.9,54.0)]
 def bands(a):
     return [0.4*a[0]+a[1], a[2]+a[3], a[4]+a[5], a[6]+a[7], a[8]+a[9], a[10]+a[11], a[12]+a[13]+a[14]]
 tot=0;totA=0;totH=0
